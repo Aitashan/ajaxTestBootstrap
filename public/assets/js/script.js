@@ -37,6 +37,7 @@ $(document).ready(function () {
             },
         },
         submitHandler: function (form) {
+            $("#response").empty();
             const formData = $(form).serializeArray();
 
             $.ajax({
@@ -47,10 +48,29 @@ $(document).ready(function () {
                     console.log("loading");
                 },
                 success: function (response) {
-                    console.log("res", response);
+                    $("#task-form")[0].reset();
+                    $("#task-modal").modal("toggle");
+
+                    if (response.status === "success") {
+                        $("#response").html(
+                            `<div class='alert alert-success alert-dismissible'>
+                            ${response.message}
+                            <button type='button' class='btn-close' data-dismiss='alert'></button></div>`
+                        );
+                    } else if (response === "failed") {
+                        "#response".html(
+                            `<div class='alert alert-danger alert-dismissible'>
+                            ${response.message}
+                            <button type='button' class='btn-close' data-dismiss='alert'></button></div>`
+                        );
+                    }
                 },
                 error: function (error) {
-                    console.log("error", error);
+                    "#response".html(
+                        `<div class='alert alert-danger alert-dismissible'>
+                        ${error.message}
+                        <button type='button' class='btn-close' data-dismiss='alert'></button></div>`
+                    );
                 },
             });
         },
