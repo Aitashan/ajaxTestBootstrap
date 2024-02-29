@@ -29,7 +29,7 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
