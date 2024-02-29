@@ -75,4 +75,8 @@ $(document).ready(function () {
             });
         },
     });
+
+    $("#task-table").dataTable({
+        order: [3, "asc"],
+    });
 });

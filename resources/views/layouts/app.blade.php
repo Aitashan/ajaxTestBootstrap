@@ -13,6 +13,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.1/css/dataTables.bootstrap5.min.css">
+
     <style>
         .error {
             color: red;
@@ -39,6 +41,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
     </script>
+
+    <script src="https://cdn.datatables.net/2.0.1/js/dataTables.min.js" type="text/javascript"></script>
+
+    <script src="https://cdn.datatables.net/2.0.1/js/dataTables.bootstrap5.min.js" type="text/javascript"></script>
 
     <script type="text/javascript" src="{{ asset('assets/js/script.js') }}"></script>
 </body>

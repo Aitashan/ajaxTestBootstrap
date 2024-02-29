@@ -14,9 +14,9 @@
         </div>
 
         <div class="table-responsive pt-4">
-            <table class="table table-striped">
+            <table class="table table-striped" id="task-table">
                 <thead>
-                    <th>ID</th>
+                    <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Priority</th>
