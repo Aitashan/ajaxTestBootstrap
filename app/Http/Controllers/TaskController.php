@@ -29,7 +29,19 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        dd($request->all());
+        $task = Task::create($request->validated());
+
+        if($task) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Task has been created!',
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'Task has not been created!',
+        ]);
     }
 
     /**

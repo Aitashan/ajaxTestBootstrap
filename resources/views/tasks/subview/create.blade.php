@@ -4,6 +4,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ route('tasks.store') }}" method="POST" id="task-form">
+                @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Create Task</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
