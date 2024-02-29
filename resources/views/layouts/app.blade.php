@@ -15,6 +15,8 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.1/css/dataTables.bootstrap5.min.css">
 
+    <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css " rel="stylesheet">
+
     <style>
         .error {
             color: red;
@@ -45,6 +47,8 @@
     <script src="https://cdn.datatables.net/2.0.1/js/dataTables.min.js" type="text/javascript"></script>
 
     <script src="https://cdn.datatables.net/2.0.1/js/dataTables.bootstrap5.min.js" type="text/javascript"></script>
+
+    <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js "></script>
 
     <script type="text/javascript">
         const baseUrl = "{{ url('/') }}"

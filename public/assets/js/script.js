@@ -205,4 +205,58 @@ $(document).ready(function () {
         const mode = "edit";
         taskId && fetchTask(taskId, mode);
     });
+
+    //Delete Task
+    $("#task-table").on("click", ".btn-delete", function () {
+        const taskId = $(this).data("id");
+
+        if (taskId) {
+            //alert
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Delete!!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    //Ajax Call
+
+                    $.ajax({
+                        url: `tasks/${taskId}`,
+                        type: "DELETE",
+                        success: function (response) {
+                            if (response.status === "success") {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "Your task has been deleted.",
+                                    icon: "success",
+                                });
+
+                                if (response.task) {
+                                    $(`#task_${response.task.id}`).remove();
+                                }
+                            } else {
+                                Swal.fire({
+                                    title: "Not Deleted!",
+                                    text: "Your task has not been deleted.",
+                                    icon: "error",
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            Swal.fire({
+                                title: "ERROR",
+                                text: "Some mistake",
+                                icon: "error",
+                            });
+                        },
+                    });
+                }
+            });
+        }
+    });
 });
