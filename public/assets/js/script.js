@@ -103,7 +103,8 @@ $(document).ready(function () {
         order: [3, "asc"],
     });
 
-    // View Todo
+    // View Task
+
     $(".btn-view").click(function () {
         const taskId = $(this).data("id");
         taskId && fetchTask(taskId);
@@ -127,10 +128,9 @@ $(document).ready(function () {
                             "disabled",
                             true
                         );
-
                         $("#task-form button[type=submit]").addClass("d-none");
-
                         $("#modal-title").text("Task Info");
+                        $("#task-form").removeAttr("action");
 
                         $("#task-modal").modal("toggle");
                     }
@@ -141,4 +141,6 @@ $(document).ready(function () {
             });
         }
     }
+
+    //Edit Task
 });
