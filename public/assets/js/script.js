@@ -55,13 +55,13 @@ $(document).ready(function () {
                         $("#response").html(
                             `<div class='alert alert-success alert-dismissible'>
                             ${response.message}
-                            <button type='button' class='btn-close' data-dismiss='alert'></button></div>`
+                            <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>`
                         );
                     } else if (response === "failed") {
                         "#response".html(
                             `<div class='alert alert-danger alert-dismissible'>
                             ${response.message}
-                            <button type='button' class='btn-close' data-dismiss='alert'></button></div>`
+                            <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>`
                         );
                     }
                 },
@@ -69,7 +69,7 @@ $(document).ready(function () {
                     "#response".html(
                         `<div class='alert alert-danger alert-dismissible'>
                         ${error.message}
-                        <button type='button' class='btn-close' data-dismiss='alert'></button></div>`
+                        <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>`
                     );
                 },
             });
