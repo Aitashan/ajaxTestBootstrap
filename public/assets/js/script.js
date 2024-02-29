@@ -6,6 +6,18 @@ $.ajaxSetup({
 
 $(document).ready(function () {
     $("#create-task-btn").click(function () {
+        $("#task-modal #title").val("");
+        $("#task-modal #priority").val("");
+        $("#task-modal #description").val("");
+        $("#task-modal #due_date").val("");
+
+        $("#task-form input, #task-form textarea").removeAttr("disabled");
+        $("#task-form button[type=submit]").removeClass("d-none");
+        $("#modal-title").text("Create Task");
+        $("#task-form").attr("action", `${baseUrl}/tasks`);
+
+        $("#hidden-task-id").remove();
+
         $("#task-modal").modal("toggle");
     });
 
@@ -40,9 +52,15 @@ $(document).ready(function () {
             $("#response").empty();
             const formData = $(form).serializeArray();
 
+            const taskId = $("#hidden-task-id").val();
+
+            const methodType = (taskId && "PUT") || "POST";
+
+            const formAction = $(form).attr("action");
+
             $.ajax({
-                url: "tasks",
-                type: "POST",
+                url: formAction,
+                type: methodType,
                 data: formData,
                 beforeSend: function () {
                     console.log("loading");
@@ -57,29 +75,49 @@ $(document).ready(function () {
                             ${response.message}
                             <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>`
                         );
-                        $("#task-table").prepend(
-                            `<tr>
-                                <td>${response.task.id}</td>
-                                <td>${response.task.title}</td>
-                                <td>${response.task.description}</td>
-                                <td>${response.task.priority}</td>
-                                <td>${
-                                    response.task.completed ? "Done" : "No"
-                                }</td>
-                                <td>${response.task.due_date}</td>
-                                <td>
-                                    <a class="btn btn-info btn-sm btn-view" href="javascript:void(0)" data-id="${
-                                        response.task.id
-                                    }">View</a>
-                                    <a class="btn btn-success btn-sm btn-edit" href="javascript:void(0)" data-id="${
-                                        response.task.id
-                                    }">Edit</a>
-                                    <a class="btn btn-danger btn-sm btn-delete" href="javascript:void(0)" data-id="${
-                                        response.task.id
-                                    }">Delete</a>
-                                </td>
-                            </tr>`
-                        );
+
+                        //For Update
+                        if (taskId) {
+                            $(`#task_${taskId} td:nth-child(2)`).html(
+                                response.task.title
+                            );
+                            $(`#task_${taskId} td:nth-child(3)`).html(
+                                response.task.description
+                            );
+                            $(`#task_${taskId} td:nth-child(4)`).html(
+                                response.task.priority
+                            );
+                            $(`#task_${taskId} td:nth-child(6)`).html(
+                                response.task.due_date
+                            );
+                        }
+
+                        //For Create
+                        else {
+                            $("#task-table").prepend(
+                                `<tr id="task_${response.task.id}">
+                                    <td>${response.task.id}</td>
+                                    <td>${response.task.title}</td>
+                                    <td>${response.task.description}</td>
+                                    <td>${response.task.priority}</td>
+                                    <td>${
+                                        response.task.completed ? "Done" : "No"
+                                    }</td>
+                                    <td>${response.task.due_date}</td>
+                                    <td>
+                                        <a class="btn btn-info btn-sm btn-view" href="javascript:void(0)" data-id="${
+                                            response.task.id
+                                        }">View</a>
+                                        <a class="btn btn-success btn-sm btn-edit" href="javascript:void(0)" data-id="${
+                                            response.task.id
+                                        }">Edit</a>
+                                        <a class="btn btn-danger btn-sm btn-delete" href="javascript:void(0)" data-id="${
+                                            response.task.id
+                                        }">Delete</a>
+                                    </td>
+                                </tr>`
+                            );
+                        }
                     } else if (response === "failed") {
                         "#response".html(
                             `<div class='alert alert-danger alert-dismissible'>
@@ -104,13 +142,13 @@ $(document).ready(function () {
     });
 
     // View Task
-
-    $(".btn-view").click(function () {
+    $("#task-table").on("click", ".btn-view", function () {
         const taskId = $(this).data("id");
-        taskId && fetchTask(taskId);
+        const mode = "view";
+        taskId && fetchTask(taskId, mode);
     });
 
-    function fetchTask(taskId) {
+    function fetchTask(taskId, mode = null) {
         if (taskId) {
             $.ajax({
                 url: `tasks/${taskId}`,
@@ -124,13 +162,32 @@ $(document).ready(function () {
                         $("#task-modal #description").val(task.description);
                         $("#task-modal #due_date").val(task.due_date);
 
-                        $("#task-form input, #task-form textarea").attr(
-                            "disabled",
-                            true
-                        );
-                        $("#task-form button[type=submit]").addClass("d-none");
-                        $("#modal-title").text("Task Info");
-                        $("#task-form").removeAttr("action");
+                        if (mode === "view") {
+                            $("#task-form input, #task-form textarea").attr(
+                                "disabled",
+                                true
+                            );
+                            $("#task-form button[type=submit]").addClass(
+                                "d-none"
+                            );
+                            $("#modal-title").text("Task Info");
+                            $("#task-form").removeAttr("action");
+                        } else if (mode === "edit") {
+                            $(
+                                "#task-form input, #task-form textarea"
+                            ).removeAttr("disabled");
+                            $("#task-form button[type=submit]").removeClass(
+                                "d-none"
+                            );
+                            $("#modal-title").text("Edit Task");
+                            $("#task-form").attr(
+                                "action",
+                                `${baseUrl}/tasks/${task.id}`
+                            );
+                            $("#task-form").append(
+                                `<input type="hidden" id="hidden-task-id" value="${task.id}"/>`
+                            );
+                        }
 
                         $("#task-modal").modal("toggle");
                     }
@@ -143,4 +200,9 @@ $(document).ready(function () {
     }
 
     //Edit Task
+    $("#task-table").on("click", ".btn-edit", function () {
+        const taskId = $(this).data("id");
+        const mode = "edit";
+        taskId && fetchTask(taskId, mode);
+    });
 });

@@ -77,7 +77,19 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        if($task){
+            $task->update($request->validated());
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Task has been updated!',
+                'task' => $task,
+            ]);
+        }
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'Task has not been updated!',
+        ]);
     }
 
     /**

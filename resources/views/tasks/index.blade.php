@@ -27,7 +27,7 @@
 
                 <tbody>
                     @forelse ($tasks as $task)
-                        <tr>
+                        <tr id="{{ `task_` . $task->id }}">
                             <td>{{ $task->id }}</td>
                             <td>{{ Str::words($task->title, 2) }}</td>
                             <td>{{ Str::words($task->description, 5) }}</td>

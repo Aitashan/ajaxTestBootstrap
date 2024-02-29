@@ -46,6 +46,10 @@
 
     <script src="https://cdn.datatables.net/2.0.1/js/dataTables.bootstrap5.min.js" type="text/javascript"></script>
 
+    <script type="text/javascript">
+        const baseUrl = "{{ url('/') }}"
+    </script>
+
     <script type="text/javascript" src="{{ asset('assets/js/script.js') }}"></script>
 </body>
 
