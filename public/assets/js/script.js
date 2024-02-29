@@ -68,9 +68,15 @@ $(document).ready(function () {
                                 }</td>
                                 <td>${response.task.due_date}</td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="javascript:void(0)">View</a>
-                                    <a class="btn btn-success btn-sm" href="">Edit</a>
-                                    <a class="btn btn-danger btn-sm" href="">Delete</a>
+                                    <a class="btn btn-info btn-sm btn-view" href="javascript:void(0)" data-id="${
+                                        response.task.id
+                                    }">View</a>
+                                    <a class="btn btn-success btn-sm btn-edit" href="javascript:void(0)" data-id="${
+                                        response.task.id
+                                    }">Edit</a>
+                                    <a class="btn btn-danger btn-sm btn-delete" href="javascript:void(0)" data-id="${
+                                        response.task.id
+                                    }">Delete</a>
                                 </td>
                             </tr>`
                         );
@@ -96,4 +102,43 @@ $(document).ready(function () {
     $("#task-table").dataTable({
         order: [3, "asc"],
     });
+
+    // View Todo
+    $(".btn-view").click(function () {
+        const taskId = $(this).data("id");
+        taskId && fetchTask(taskId);
+    });
+
+    function fetchTask(taskId) {
+        if (taskId) {
+            $.ajax({
+                url: `tasks/${taskId}`,
+                type: "GET",
+                success: function (response) {
+                    if (response.status === "success") {
+                        const task = response.task;
+
+                        $("#task-modal #title").val(task.title);
+                        $("#task-modal #priority").val(task.priority);
+                        $("#task-modal #description").val(task.description);
+                        $("#task-modal #due_date").val(task.due_date);
+
+                        $("#task-form input, #task-form textarea").attr(
+                            "disabled",
+                            true
+                        );
+
+                        $("#task-form button[type=submit]").addClass("d-none");
+
+                        $("#modal-title").text("Task Info");
+
+                        $("#task-modal").modal("toggle");
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                },
+            });
+        }
+    }
 });

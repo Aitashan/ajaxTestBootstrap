@@ -35,9 +35,12 @@
                             <td>{{ $task->completed ? 'Done' : 'No' }}</td>
                             <td>{{ $task->due_date }}</td>
                             <td>
-                                <a class="btn btn-info btn-sm" href="javascript:void(0)">View</a>
-                                <a class="btn btn-success btn-sm" href="">Edit</a>
-                                <a class="btn btn-danger btn-sm" href="">Delete</a>
+                                <a class="btn btn-info btn-sm btn-view" href="javascript:void(0)"
+                                    data-id="{{ $task->id }}">View</a>
+                                <a class="btn btn-success btn-sm btn-edit" href="javascript:void(0)"
+                                    data-id="{{ $task->id }}">Edit</a>
+                                <a class="btn btn-danger btn-sm btn-delete" href="javascript:void(0)"
+                                    data-id="{{ $task->id }}">Delete</a>
                             </td>
                         </tr>
                     @empty

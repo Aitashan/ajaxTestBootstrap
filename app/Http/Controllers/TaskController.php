@@ -52,7 +52,16 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        if($task){
+            return response()->json([
+                'status' => 'success',
+                'task' => $task,
+            ]);
+        }
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'No task here!',
+        ]);
     }
 
     /**
