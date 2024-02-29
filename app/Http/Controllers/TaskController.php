@@ -37,6 +37,7 @@ class TaskController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'Task has been created!',
+                'task' => $task,
             ]);
         }
 

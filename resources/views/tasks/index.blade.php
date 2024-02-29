@@ -29,8 +29,8 @@
                     @forelse ($tasks as $task)
                         <tr>
                             <td>{{ $task->id }}</td>
-                            <td>{{ $task->title }}</td>
-                            <td>{{ $task->description }}</td>
+                            <td>{{ Str::words($task->title, 2) }}</td>
+                            <td>{{ Str::words($task->description, 5) }}</td>
                             <td>{{ $task->priority }}</td>
                             <td>{{ $task->completed ? 'Done' : 'No' }}</td>
                             <td>{{ $task->due_date }}</td>

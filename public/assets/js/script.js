@@ -57,6 +57,23 @@ $(document).ready(function () {
                             ${response.message}
                             <button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>`
                         );
+                        $("#task-table").prepend(
+                            `<tr>
+                                <td>${response.task.id}</td>
+                                <td>${response.task.title}</td>
+                                <td>${response.task.description}</td>
+                                <td>${response.task.priority}</td>
+                                <td>${
+                                    response.task.completed ? "Done" : "No"
+                                }</td>
+                                <td>${response.task.due_date}</td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" href="javascript:void(0)">View</a>
+                                    <a class="btn btn-success btn-sm" href="">Edit</a>
+                                    <a class="btn btn-danger btn-sm" href="">Delete</a>
+                                </td>
+                            </tr>`
+                        );
                     } else if (response === "failed") {
                         "#response".html(
                             `<div class='alert alert-danger alert-dismissible'>
